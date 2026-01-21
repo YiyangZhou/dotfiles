@@ -267,9 +267,7 @@ local plugins = {
     opts = {
       lang = "python3", -- default language
       cn = { -- leetcode.cn
-        enabled = true,
-        translator = true,
-        translate_problems = true,
+        enabled = false,
       },
       storage = {
         home = vim.fn.stdpath("data") .. "/leetcode",
