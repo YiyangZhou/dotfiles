@@ -74,6 +74,48 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
+  -- Claude Code
+  {
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    config = true,
+    opts = {
+      terminal = {
+        split_side = "right",
+        split_width_percentage = 0.5,
+      },
+    },
+    keys = {
+      { "<leader>c", nil, desc = "Claude Code" },
+      { "<leader>cc", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      { "<leader>cf", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+      { "<leader>cr", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+      { "<leader>cs", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+    },
+  },
+
+  -- snacks.nvim (claudecode dependency)
+  {
+    "folke/snacks.nvim",
+    lazy = false,
+    config = true,
+  },
+
+  -- Smooth scrolling
+  {
+    "karb94/neoscroll.nvim",
+    config = function()
+      local neoscroll = require("neoscroll")
+      neoscroll.setup({
+        hide_cursor = false,
+        easing = "sine",
+      })
+      local modes = { "n", "v", "x" }
+      vim.keymap.set(modes, "<ScrollWheelUp>", function() neoscroll.scroll(-3, { duration = 50 }) end)
+      vim.keymap.set(modes, "<ScrollWheelDown>", function() neoscroll.scroll(3, { duration = 50 }) end)
+    end,
+  },
+
   -- LSP
   {
     "neovim/nvim-lspconfig",
@@ -407,6 +449,16 @@ map("n", "<Esc>", ":nohlsearch<CR>", { silent = true })
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
 map("i", "jj", "<Esc>")
+
+-- Ctrl+C/V copy/paste (VSCode style)
+map("v", "<C-c>", '"+y', { desc = "Copy to clipboard" })
+map("n", "<C-v>", '"+p', { desc = "Paste from clipboard" })
+map("i", "<C-v>", '<C-r>+', { desc = "Paste from clipboard" })
+map("v", "<C-v>", '"+p', { desc = "Paste from clipboard" })
+
+-- Page scroll with Ctrl+D/U
+map("n", "<C-d>", "<C-d>zz", { desc = "Page down" })
+map("n", "<C-u>", "<C-u>zz", { desc = "Page up" })
 
 local api = vim.api
 
