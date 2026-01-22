@@ -71,6 +71,7 @@ create_dirs() {
     info "Creating config directories..."
     mkdir -p ~/.config/nvim
     mkdir -p ~/.config/ghostty
+    mkdir -p ~/.config/tmux
 }
 
 # Install configs
@@ -82,10 +83,10 @@ install_configs() {
     cp "$CONFIGS_DIR/zshrc" ~/.zshrc
     info "Installed ~/.zshrc"
 
-    # Tmux
-    backup_if_exists ~/.tmux.conf
-    cp "$CONFIGS_DIR/tmux.conf" ~/.tmux.conf
-    info "Installed ~/.tmux.conf"
+    # Tmux (XDG location)
+    backup_if_exists ~/.config/tmux/tmux.conf
+    cp "$CONFIGS_DIR/tmux.conf" ~/.config/tmux/tmux.conf
+    info "Installed ~/.config/tmux/tmux.conf"
 
     # Neovim
     backup_if_exists ~/.config/nvim/init.lua
